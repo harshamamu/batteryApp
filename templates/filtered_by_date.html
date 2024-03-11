@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Filtered Serial Numbers by Date</title>
+    <style>
+        
+
+        /* CSS for positioning the Export to CSV link */
+        .export-csv {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-weight: bold;
+            font-size: 30px; /* Increased font size */
+        }
+
+    </style>
+    
+</head>
+<body>
+    <h1>Filtered Serial Numbers by Date</h1>
+
+    <p>Serial numbers scanned on {{ filter_date }}:</p>
+
+    <table border="1">
+        <tr>
+            <th>Serial Number</th>
+            <th>Scanned Count</th>
+            <th>Last Scanned Time</th>
+        </tr>
+        {% for serial, count, last_scanned_time in serial_data %}
+        <tr>
+            <td>{{ serial }}</td>
+            <td>{{ count }}</td>
+            <td>{{ last_scanned_time }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!-- Add an option to export filtered results to CSV if needed -->
+    <a href="/export_filtered_by_date?filter_date={{ filter_date }}" class="export-csv">Export to CSV</a>
+</body>
+</html>

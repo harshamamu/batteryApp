@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Serial Number Scanner</title>
+    <style>
+        /* Styling for the warning box */
+        .clear-db-box {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            border: 1px solid #000;
+            background-color: #f2f2f2;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Serial Number Scanner</h1>
+    
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% elif success %}
+        <p style="color: green;">{{ success }}</p>
+    {% endif %}
+    
+    <form action="/submit?focus_cursor=true" method="POST">
+        <label for="serial_number">Serial Number:</label>
+        <input type="text" name="serial_number" id="serial_number" required maxlength="13" {% if focus_cursor %}autofocus{% endif %}>
+        <button type="submit">Submit</button>
+    </form>
+    
+    <hr>
+    
+    <h2>Check Count</h2>
+    
+    <form action="/count" method="GET">
+        <label for="serial_number_count">Serial Number:</label>
+        <input type="text" name="serial_number" id="serial_number_count" required maxlength="13" >
+        <button type="submit">Check Count</button>
+    </form>
+
+    <hr>
+
+    <!-- Add a form to check all serial numbers above a specified count -->
+    <h2>Serial Numbers which are above provided Threshold</h2>
+    <form action="/above_threshold" method="GET">
+        <label for="threshold">Threshold:</label>
+        <input type="number" name="threshold" id="threshold" required min="1">
+        <button type="submit">Get Serial Numbers</button>
+    </form>
+
+    <hr>
+    <!-- Add a form to filter by date -->
+    <h2>Serial Numbers which are above provided Date</h2>
+    <form action="/filter_by_date" method="GET">
+        <label for="filter_date">Filter by Date:</label>
+        <input type="date" name="filter_date" id="filter_date" required>
+        <button type="submit">Filter</button>
+    </form>
+
+    <!-- JSON Import Form -->
+    <h2>Import Data From JSON</h2>
+    <form action="/import_json" method="POST" enctype="multipart/form-data">
+        <label for="json_file">Upload JSON File:</label>
+        <input type="file" name="file" id="json_file" accept=".json" required>
+        <button type="submit">Import From JSON</button>
+    </form>
+
+    <hr>
+
+    <!-- Box for Clear Database -->
+    <div class="clear-db-box">
+        <form action="/clear_confirm" method="POST">
+            <label for="clear-db">Clear Database:</label>
+            <input type="submit" id="clear-db" value="Clear" onclick="return confirm('Are you sure you want to clear the database? This action cannot be undone.')"disabled>
+        </form>
+    </div>
+
+    <hr>
+
+    <!-- Add a link/button to display all serial numbers -->
+    <a href="/all_serial_numbers">Display All Scanned Serial Numbers</a>
+</body>
+</html>

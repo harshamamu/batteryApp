@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Scanned Serial Numbers</title>
+    <style>
+        /* CSS for red background */
+        .high-count {
+            background-color: rgba(255, 208, 0, 0.678);
+        }
+
+        /* CSS for positioning the Export to CSV link */
+        .export-csv {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-weight: bold;
+            font-size: 30px; /* Increased font size */
+        }
+
+        /* CSS for empty database message */
+        .empty-db {
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>All Scanned Serial Numbers</h1>
+    
+    {% if empty_db %}
+        <button class="empty-db">The database is empty</button>
+    {% else %}
+        <table border="1">
+            <tr>
+                <th>Serial Number</th>
+                <th>Times Scanned</th>
+                <th>Last Used Date</th>
+            </tr>
+            {% for serial, count, last_used_date in serial_data %}
+            <tr {% if count > 150 %}class="high-count"{% endif %}>
+                <td>{{ serial }}</td>
+                <td>{{ count }}</td>
+                <td>{{ last_used_date }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+    <!-- Link to trigger CSV export with larger font size -->
+    <a href="/export_csv" class="export-csv">Export to CSV</a>
+</body>
+</html>
